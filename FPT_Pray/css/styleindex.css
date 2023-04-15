@@ -300,16 +300,16 @@
     }
 
     100% {
-        bottom: 200px;
+        bottom: 180px;
     }
 
 }
 
 .incense {
     position: absolute;
-    width: 15px;
-    bottom: 200px;
-    left: 190px;
+    width: 12px;
+    bottom: 180px;
+    left: 167px;
     transform-origin: bottom;
     animation: give-incense 2s linear 1;
 }
@@ -333,7 +333,7 @@
 
 .smoke {
     position: absolute;
-    left: 185px;
+    left: 165px;
     top: 100px;
     width: 0;
     height: 0;
