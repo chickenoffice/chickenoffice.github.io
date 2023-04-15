@@ -399,7 +399,7 @@
 }
 
 .prayer-wall {
-    width: 50%;
+    width: 0;
     height: 100vh;
     background-color: blanchedalmond;
     display: inline-block;
