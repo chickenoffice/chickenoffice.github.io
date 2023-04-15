@@ -1,4 +1,4 @@
-var expandStatus = "opening";
+var expandStatus = "closing";
 var templeStatus = "closing";
 function expand() {
     var arrow = document.getElementById('expand-arrow');
