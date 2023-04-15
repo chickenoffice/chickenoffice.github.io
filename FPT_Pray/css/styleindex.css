@@ -130,7 +130,7 @@
 .main h1 {
     font-family: 'kalam';
     font-weight: 700;
-    font-size: 100px;
+    font-size: 80px;
     color: white;
     text-align: center;
     width: auto;
@@ -214,11 +214,11 @@
     padding: 20px;
     display: flex;
     overflow: hidden;
-    height: 430px;
+    height: 380px;
 }
 
 .temple-img {
-    width: 400px;
+    width: 350px;
 
 }
 
