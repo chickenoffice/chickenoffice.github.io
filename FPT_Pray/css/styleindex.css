@@ -449,4 +449,5 @@
     text-decoration: underline;
     line-height: 2px;
     text-decoration-thickness: 1px;
+    overflow: hidden;
 }
