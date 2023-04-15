@@ -86,27 +86,56 @@ function changeTrack() {
 
 
 function loadCard() {
-   fetch('data/data.txt')
-  .then(response => response.text())
-  .then(data => {
-    const lines = data.split('\n');
-    const prayContent = document.getElementById('pray-content');
-    lines.forEach(line => {
-      const parts = line.split(';');
-      if (parts.length >= 2) {
-        const [name, description] = parts.slice(0, 2);
-        const prayCard = document.createElement('div');
-        prayCard.classList.add('pray-card');
+    fetch('data/data.txt')
+        .then(response => response.text())
+        .then(data => {
+            const lines = data.split('\n');
+            const prayContent = document.getElementById('pray-content');
+            const prayers = [];
 
-        const nameElem = document.createElement('p');
-        nameElem.textContent = name.trim();
-        const descriptionElem = document.createElement('h3');
-        descriptionElem.textContent = description.trim();
-        prayCard.appendChild(nameElem);
-        prayCard.appendChild(descriptionElem);
-        prayContent.appendChild(prayCard);
-      }
-    });
-  })
-  .catch(error => console.error(error));
+            lines.forEach(line => {
+                const parts = line.split(';');
+                if (parts.length >= 2) {
+                    const [name, ...descriptionParts] = parts;
+                    const description = descriptionParts.join(';');
+                    prayers.push({
+                        name: name.trim(),
+                        description: description.trim()
+                    });
+                }
+            });
+
+            if (prayers.length > 4) {
+                const randomPrayers = getRandomItems(prayers, 4);
+                randomPrayers.forEach(prayer => {
+                    const prayCard = createPrayCard(prayer);
+                    prayContent.appendChild(prayCard);
+                });
+            } else {
+                prayers.forEach(prayer => {
+                    const prayCard = createPrayCard(prayer);
+                    prayContent.appendChild(prayCard);
+                });
+            }
+        })
+        .catch(error => console.error(error));
+
+}
+
+function getRandomItems(array, count) {
+    const shuffled = array.sort(() => 0.5 - Math.random());
+    return shuffled.slice(0, count);
+}
+
+function createPrayCard(prayer) {
+    const prayCard = document.createElement('div');
+    prayCard.classList.add('pray-card');
+
+    const descriptionElem = document.createElement('p');
+    descriptionElem.textContent = prayer.description;
+    const nameElem = document.createElement('h3');
+    nameElem.textContent = prayer.name;
+    prayCard.appendChild(descriptionElem);
+    prayCard.appendChild(nameElem);
+    return prayCard;
 }
