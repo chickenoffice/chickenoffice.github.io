@@ -87,25 +87,26 @@ function changeTrack() {
 
 function loadCard() {
     fetch('data/data.txt')
-    .then(response => response.text())
-    .then(data => {
-      const lines = data.split('\n');
-      const prayContent = document.getElementById('pray-content');
-      lines.forEach(line => {
-        if (line.includes(';')) { // Add a check for the semicolon separator
-          const [name, description] = line.split(';');
-          const prayCard = document.createElement('div');
-          prayCard.classList.add('pray-card');
-  
-          const nameElem = document.createElement('p');
-          nameElem.textContent = name.trim();
-          const descriptionElem = document.createElement('h3');
-          descriptionElem.textContent = description.trim();
-          prayCard.appendChild(nameElem);
-          prayCard.appendChild(descriptionElem);
-          prayContent.appendChild(prayCard);
-        }
-      });
-    })
-    .catch(error => console.error(error));
+  .then(response => response.text())
+  .then(data => {
+    const lines = data.split('\n');
+    const prayContent = document.getElementById('pray-content');
+    lines.forEach(line => {
+      const parts = line.split(';');
+      if (parts.length >= 2) {
+        const [name, description] = parts.slice(0, 2);
+        const prayCard = document.createElement('div');
+        prayCard.classList.add('pray-card');
+
+        const nameElem = document.createElement('p');
+        nameElem.textContent = name.trim();
+        const descriptionElem = document.createElement('h3');
+        descriptionElem.textContent = description.trim();
+        prayCard.appendChild(nameElem);
+        prayCard.appendChild(descriptionElem);
+        prayContent.appendChild(prayCard);
+      }
+    });
+  })
+  .catch(error => console.error(error));
 }
