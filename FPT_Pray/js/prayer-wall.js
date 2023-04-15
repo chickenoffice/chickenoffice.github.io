@@ -30,7 +30,7 @@ function openingTemple() {
 
     } else {
         templeStatus = "opening";
-        closingDiv.style.height = '430px';
+        closingDiv.style.height = '380px';
         button.innerHTML = 'Đóng';
         area.style.left = '0';
     }
@@ -86,7 +86,7 @@ function changeTrack() {
 
 
 function loadCard() {
-    fetch('data/data.txt')
+   fetch('data/data.txt')
   .then(response => response.text())
   .then(data => {
     const lines = data.split('\n');
