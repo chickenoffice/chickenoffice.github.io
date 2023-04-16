@@ -454,3 +454,33 @@
     text-decoration-thickness: 1px;
     overflow: hidden;
 }
+
+.music-button {
+    position: absolute;
+    bottom: 10px;
+    left: 10px;
+    width: 40px;
+    height: 40px;
+    opacity: 0.1;
+    background-color: transparent;
+    border: 1px solid transparent;
+    transition: 0.2s;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 10px;
+}
+.music-button img {
+    width: 20px;
+    margin-left: -3px;
+    user-select: none;
+}
+
+.music-button:hover {
+    border: 1px solid white;
+    opacity: 0.5;
+}
+
+.music-button:active {
+    background-color: white;
+}
