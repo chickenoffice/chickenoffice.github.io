@@ -70,7 +70,7 @@ var audioFiles = ["audio/level1.mp3", "audio/level1.mp3", "audio/level1.mp3", "a
     "audio/level6.mp3", "audio/level7.mp3", "audio/level8.mp3"];
 
 function changeTrack() {
-    
+
     if (audioIndex < audioFiles.length) {
         var audio = document.getElementById("myAudio");
         var source = document.getElementById("audioSource");
@@ -95,10 +95,10 @@ function playMusic() {
         source.src = 'audio/wildflower.mp3';
         audio.load();
         audio.play();
-      } else {
-        
+    } else {
+
         audio.pause();
-      }
+    }
 }
 
 
@@ -157,51 +157,58 @@ function createPrayCard(prayer) {
     return prayCard;
 }
 
-  async function saveDataToGitHub() {
+async function saveDataToGitHub() {
     // Set up authentication with GitHub
     const token = decodeString('Z2hwX1pLWU1jd2k0ZDJhNERiMGZhYVJ3RjA0djBNaERmNTFyaDhvbQ==');
     const authHeader = { 'Authorization': `Bearer ${token}` };
-    
+
     // Get the name and wishes from the input fields
     const name = document.getElementById('nickname').value.trim() || 'anonymous';
     const wishes = document.getElementById('wishes').value.trim();
-    
+
     // Create the data string in the format [name];[wishes]
     const data = `${name};${wishes}`;
-    
+
     // Define the repository and file to save the data to
     const owner = 'chickenoffice';
     const repo = 'chickenoffice.github.io';
     const filePath = 'FPT_Pray/data/data.txt';
     const branchName = 'main';
-    
+
     // Get the current contents of the file
     const getFileUrl = `https://api.github.com/repos/${owner}/${repo}/contents/${filePath}?ref=${branchName}`;
     const getFileResponse = await fetch(getFileUrl, { headers: authHeader });
     const getFileJson = await getFileResponse.json();
-    
+
     // Update the file with the new contents
     const updateFileUrl = `https://api.github.com/repos/${owner}/${repo}/contents/${filePath}`;
-    // const fileContent = atob(getFileJson.content);
+
+    const contentBase64Old = getFileJson.content;
+    const contentBytesOld = Uint8Array.from(atob(contentBase64Old), c => c.charCodeAt(0));
+    const decoder = new TextDecoder();
+    const content = decoder.decode(contentBytesOld);
+
+    const encoder = new TextEncoder();
+    const contentBytes = encoder.encode(`${content}\n${data}`);
+    const contentBase64 = btoa(String.fromCharCode(...new Uint8Array(contentBytes)));
+
     const updateFileData = {
-      message: 'Update data file',
-    //   content: btoa(`${fileContent}\n${data}`),
-      content: `${getFileJson.content}\n${data}`,
-      sha: getFileJson.sha,
-      branch: branchName
+        message: 'Update data file',
+        content: contentBase64,
+        sha: getFileJson.sha,
+        branch: branchName
     };
     const updateFileResponse = await fetch(updateFileUrl, {
-      method: 'PUT',
-      headers: { ...authHeader, 'Content-Type': 'application/json' },
-      body: JSON.stringify(updateFileData)
+        method: 'PUT',
+        headers: { ...authHeader, 'Content-Type': 'application/json' },
+        body: JSON.stringify(updateFileData)
     });
-    
+
     // Log the response from the API
     console.log(await updateFileResponse.json());
-  }
-  
+}
 
-  function decodeString(encodedStr) {
+
+function decodeString(encodedStr) {
     return atob(encodedStr);
-  }
-  
+}
