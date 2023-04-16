@@ -88,6 +88,19 @@ function changeTrack() {
     }
 }
 
+function playMusic() {
+    var audio = document.getElementById("myAudio");
+    var source = document.getElementById("audioSource");
+    if (audio.paused) {
+        source.src = 'audio/wildflower.mp3';
+        audio.load();
+        audio.play();
+      } else {
+        
+        audio.pause();
+      }
+}
+
 
 function loadCard() {
     fetch('data/data.txt')
