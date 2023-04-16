@@ -159,7 +159,7 @@ function createPrayCard(prayer) {
 
 async function saveDataToGitHub() {
     // Set up authentication with GitHub
-    const token = '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';
+    const token = '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';
     const authHeader = { 'Authorization': `Bearer ${token}` };
     
     // Get the name and wishes from the input fields
