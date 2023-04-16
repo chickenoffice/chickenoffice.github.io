@@ -90,12 +90,15 @@
     position: absolute;
     top: 0;
     left: 0;
+    width: 100vw;
+    height: 100vh;
     z-index: 2;
     mix-blend-mode: color-burn;
     opacity: 1;
     display: none;
     user-select: none;
     pointer-events: none;
+    background-image: url(../images/fog.gif);
 }
 
 
@@ -292,15 +295,15 @@
 
 @keyframes give-incense {
     0% {
-        bottom: 500px;
+        bottom: 110%;
     }
 
     75% {
-        bottom: 250px;
+        bottom: 62%;
     }
 
     100% {
-        bottom: 180px;
+        bottom: 53%;
     }
 
 }
@@ -308,8 +311,8 @@
 .incense {
     position: absolute;
     width: 12px;
-    bottom: 180px;
-    left: 167px;
+    bottom: 53%;
+    left: 47.5%;
     transform-origin: bottom;
     animation: give-incense 2s linear 1;
 }
@@ -333,7 +336,7 @@
 
 .smoke {
     position: absolute;
-    left: 165px;
+    left: 45.5%;
     top: 100px;
     width: 0;
     height: 0;
