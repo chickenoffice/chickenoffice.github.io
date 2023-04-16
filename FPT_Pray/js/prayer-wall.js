@@ -182,9 +182,10 @@ function createPrayCard(prayer) {
     
     // Update the file with the new contents
     const updateFileUrl = `https://api.github.com/repos/${owner}/${repo}/contents/${filePath}`;
+    const fileContent = atob(getFileJson.content);
     const updateFileData = {
       message: 'Update data file',
-      content: btoa(`${getFileJson.content}\n${data}`),
+      content: btoa(`${fileContent}\n${data}`),
       sha: getFileJson.sha,
       branch: branchName
     };
