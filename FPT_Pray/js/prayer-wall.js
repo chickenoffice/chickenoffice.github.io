@@ -70,12 +70,16 @@ var audioFiles = ["audio/level1.mp3", "audio/level1.mp3", "audio/level1.mp3", "a
     "audio/level6.mp3", "audio/level7.mp3", "audio/level8.mp3"];
 
 function changeTrack() {
+    
     if (audioIndex < audioFiles.length) {
         var audio = document.getElementById("myAudio");
         var source = document.getElementById("audioSource");
         source.src = audioFiles[audioIndex];
         audio.load();
         audio.play();
+        if (audioIndex == 0) {
+            savePrayer();
+        }
         audioIndex++;
     }
     if (audioIndex == audioFiles.length) {
@@ -138,4 +142,33 @@ function createPrayCard(prayer) {
     prayCard.appendChild(descriptionElem);
     prayCard.appendChild(nameElem);
     return prayCard;
+}
+
+function savePrayer() {
+    const nameInput = document.getElementById('nickname');
+    const descriptionInput = document.getElementById('wishes');
+    const name = nameInput.value.trim() || 'anonymous';
+    const description = descriptionInput.value.trim();
+
+    if (!description || description.length < 4) {
+        return;
+    }
+
+    const prayer = `${name};${description}\n`;
+
+    fetch('data/data.txt', {
+        method: 'POST',
+        body: prayer,
+        headers: {
+            'Content-Type': 'text/plain'
+        }
+    })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Failed to save prayer.');
+            }
+        })
+        .catch(error => {
+            console.error(error);
+        });
 }
