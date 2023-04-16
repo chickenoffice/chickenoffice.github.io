@@ -144,31 +144,45 @@ function createPrayCard(prayer) {
     return prayCard;
 }
 
-function savePrayer() {
-    const nameInput = document.getElementById('nickname');
-    const descriptionInput = document.getElementById('wishes');
-    const name = nameInput.value.trim() || 'anonymous';
-    const description = descriptionInput.value.trim();
-
-    if (!description || description.length < 4) {
-        return;
-    }
-
-    const prayer = `${name};${description}\n`;
-
-    fetch('data/data.txt', {
-        method: 'POST',
-        body: prayer,
-        headers: {
-            'Content-Type': 'text/plain'
-        }
-    })
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Failed to save prayer.');
-            }
-        })
-        .catch(error => {
-            console.error(error);
-        });
-}
+async function saveDataToGitHub() {
+    // Set up authentication with GitHub
+    const token = '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';
+    const authHeader = { 'Authorization': `Bearer ${token}` };
+    
+    // Get the name and wishes from the input fields
+    const name = document.getElementById('nickname').value.trim() || 'anonymous';
+    const wishes = document.getElementById('wishes').value.trim();
+    
+    // Create the data string in the format [name];[wishes]
+    const data = `${name};${wishes}`;
+    
+    // Define the repository and file to save the data to
+    const owner = 'chickenoffice';
+    const repo = 'chickenoffice.github.io';
+    const filePath = 'FPT_Pray/data/data.txt';
+    const branchName = 'main';
+    
+    // Get the current contents of the file
+    const getFileUrl = `https://api.github.com/repos/${owner}/${repo}/contents/${filePath}?ref=${branchName}`;
+    //https://api.github.com/repos/chickenoffice/chickenoffice.github.io/contents/FPT_Pray/data/data.txt?ref=main
+    const getFileResponse = await fetch(getFileUrl, { headers: authHeader });
+    const getFileJson = await getFileResponse.json();
+    
+    // Update the file with the new contents
+    const updateFileUrl = `https://api.github.com/repos/${owner}/${repo}/contents/${filePath}`;
+    const updateFileData = {
+      message: 'Update data file',
+      content: btoa(data),
+      sha: getFileJson.sha,
+      branch: branchName
+    };
+    const updateFileResponse = await fetch(updateFileUrl, {
+      method: 'PUT',
+      headers: { ...authHeader, 'Content-Type': 'application/json' },
+      body: JSON.stringify(updateFileData)
+    });
+    
+    // Log the response from the API
+    console.log(await updateFileResponse.json());
+  }
+  
