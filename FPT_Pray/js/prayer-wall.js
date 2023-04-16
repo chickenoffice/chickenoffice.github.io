@@ -78,7 +78,7 @@ function changeTrack() {
         audio.load();
         audio.play();
         if (audioIndex == 0) {
-            savePrayer();
+            saveDataToGitHub();
         }
         audioIndex++;
     }
