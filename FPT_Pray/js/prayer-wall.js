@@ -157,7 +157,7 @@ function createPrayCard(prayer) {
     return prayCard;
 }
 
-async function saveDataToGitHub() {
+  async function saveDataToGitHub() {
     // Set up authentication with GitHub
     const token = decodeString('Z2hwX1pLWU1jd2k0ZDJhNERiMGZhYVJ3RjA0djBNaERmNTFyaDhvbQ==');
     const authHeader = { 'Authorization': `Bearer ${token}` };
@@ -177,7 +177,6 @@ async function saveDataToGitHub() {
     
     // Get the current contents of the file
     const getFileUrl = `https://api.github.com/repos/${owner}/${repo}/contents/${filePath}?ref=${branchName}`;
-    //https://api.github.com/repos/chickenoffice/chickenoffice.github.io/contents/FPT_Pray/data/data.txt?ref=main
     const getFileResponse = await fetch(getFileUrl, { headers: authHeader });
     const getFileJson = await getFileResponse.json();
     
@@ -185,7 +184,7 @@ async function saveDataToGitHub() {
     const updateFileUrl = `https://api.github.com/repos/${owner}/${repo}/contents/${filePath}`;
     const updateFileData = {
       message: 'Update data file',
-      content: btoa(data),
+      content: btoa(`${getFileJson.content}\n${data}`),
       sha: getFileJson.sha,
       branch: branchName
     };
